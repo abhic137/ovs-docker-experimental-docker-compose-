@@ -1,0 +1,46 @@
+version: "3"
+
+services:
+  ovsdb-server:
+    image: openvswitch/ovs:2.11.2_debian
+    command: ovsdb-server
+    networks:
+      - ovs-comm
+    volumes:
+      - ovs-db:/var/lib/openvswitch
+
+  ovs-vswitchd:
+    image: openvswitch/ovs:2.11.2_debian
+    command: ovs-vswitchd
+    privileged: true
+    volumes:
+      - ovs-db:/var/lib/openvswitch
+    networks:
+      - ovs-comm
+      - ovs-network1
+      - ovs-network2
+
+  ubuntu1:
+    image: ubuntu
+    command: sleep infinity
+    cap_add:
+      - NET_ADMIN
+    networks:
+      - ovs-network1
+
+  ubuntu2:
+    image: ubuntu
+    command: sleep infinity
+    cap_add:
+      - NET_ADMIN
+    networks:
+      - ovs-network2
+
+networks:
+  ovs-comm:
+  ovs-network1:
+  ovs-network2:
+
+volumes:
+  ovs-db:
+

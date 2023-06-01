@@ -1,0 +1,30 @@
+version: '3'
+services:
+  ovsdb-server:
+    image: openvswitch/ovs:2.11.2_debian
+    command: ovsdb-server
+    network_mode: host
+    container_name: ovsdb-server
+    restart: unless-stopped
+    volumes:
+      - "/etc/openvswitch:/etc/openvswitch"
+      - "/var/lib/openvswitch:/var/lib/openvswitch"
+      - "/var/log/openvswitch:/var/log/openvswitch"
+      - "/var/run/openvswitch:/var/run/openvswitch"
+    environment:
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+  ovs-vswitchd:
+    image: openvswitch/ovs:2.11.2_debian
+    command: ovs-vswitchd
+    network_mode: host
+    container_name: ovs-vswitchd
+    restart: unless-stopped
+    volumes:
+      - "/etc/openvswitch:/etc/openvswitch"
+      - "/var/lib/openvswitch:/var/lib/openvswitch"
+      - "/var/log/openvswitch:/var/log/openvswitch"
+      - "/var/run/openvswitch:/var/run/openvswitch"
+    environment:
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    privileged: true

@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  ovsdb-server:
+    image: openvswitch/ovs:2.11.2_debian
+    container_name: ovsdb-server
+    entrypoint: ["ovsdb-server", "--remote=punix:/var/run/openvswitch/db.sock", "--remote=db:Open_vSwitch,manager_options", "--pidfile"]
+    volumes:
+      - /var/lib/openvswitch:/var/lib/openvswitch
+      - /etc/openvswitch:/etc/openvswitch
+      - /var/run/openvswitch:/var/run/openvswitch
+    restart: always
+
+  ovs-vswitchd:
+    image: openvswitch/ovs:2.11.2_debian
+    container_name: ovsdb-vswitchd
+    entrypoint: ["ovs-vswitchd", "--pidfile"]
+    volumes:
+      - /var/lib/openvswitch:/var/lib/openvswitch
+      - /etc/openvswitch:/etc/openvswitch
+      - /var/run/openvswitch:/var/run/openvswitch
+    restart: always

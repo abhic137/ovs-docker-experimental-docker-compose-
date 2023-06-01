@@ -1,0 +1,9 @@
+version: '3'
+services:
+  ovs:
+    image: openvswitch/ovs
+    command: ovs-vswitchd --pidfile --detach
+    volumes:
+      - /var/run/openvswitch:/var/run/openvswitch
+    ports:
+      - "6640:6640"

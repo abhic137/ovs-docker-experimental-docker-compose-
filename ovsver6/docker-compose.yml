@@ -1,0 +1,11 @@
+version: '3'
+services:
+  ovs:
+    image: openvswitch/ovs:2.11.2_debian  
+    command: ovs-vswitchd --pidfile --detach
+    network_mode: ovs-comm
+    volumes:
+      - /var/run/openvswitch:/var/run/openvswitch
+    ports:
+      - "6640:6640"
+

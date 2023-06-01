@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  ovsdb-server:
+    image: openvswitch/ovs:2.11.2_debian
+    command: ovsdb-server
+    container_name: ovsdb-server
+    network_mode: host
+    privileged: true
+    cap_add:
+     - SYS_NICE
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
+
+  ovs-vswitchd:
+    image: openvswitch/ovs:2.11.2_debian
+    command: ovs-vswitchd --verbose
+    container_name: ovs-vswitchd
+    depends_on:
+     - ovsdb-server
+    network_mode: host
+    privileged: true
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
+  
+
+
+
+
+
